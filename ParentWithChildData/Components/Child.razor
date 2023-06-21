@@ -1,0 +1,29 @@
+﻿<ul>
+	@foreach (var item in Items)
+	{
+		<li>@item</li>
+	}
+</ul>
+
+<EditForm Model="item" OnValidSubmit="OnItemAdded">
+	<FluentValidationValidator/>
+	<InputText @bind-Value="item.Value" />
+	<ValidationMessage For="() => item.Value"/>
+	<button type="submit">Add Item</button>
+</EditForm>
+
+@code {
+	private ItemForm item = new();
+
+	[Parameter]
+	public List<string> Items { get; set; } = new();
+
+	[Parameter]
+	public EventCallback ItemAdded { get; set; }
+
+	private void OnItemAdded()
+	{
+		Items.Add(item.Value);
+		item = new();
+	}
+}

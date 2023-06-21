@@ -1,0 +1,25 @@
+﻿@page "/Parent"
+@inject LocalAppData LocalAppData
+
+<h3>Parent with Child Data</h3>
+
+<Child Items="Child1Data" />
+<Child Items="Child2Data"/>
+
+<button @onclick="SaveAll">Save All</button>
+
+<p>Open folder @LocalAppData.SaveLocation to see output files.</p>
+
+@code {
+	private List<string> Child1Data { get; set; } = new();
+	private List<string> Child2Data { get; set; } = new();
+
+	async Task SaveAll()
+	{
+		await LocalAppData.SaveAsync(new SaveModel()
+		{
+			Child1 = Child1Data,
+			Child2 = Child2Data
+		}, "sample.json");
+	}
+}
